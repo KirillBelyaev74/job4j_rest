@@ -14,13 +14,15 @@ import ru.job4j.job4j_rest.model.Person;
 import ru.job4j.job4j_rest.repository.PersonRepository;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @WebAppConfiguration
 @RunWith(SpringRunner.class)
-public class PersonControllerTest {
+public class EmployeeControllerTest {
 
     @Autowired
     private PersonRepository personRepository;
@@ -40,7 +42,7 @@ public class PersonControllerTest {
 
     @Test
     public void whenSavePerson() throws Exception {
-        this.mockMvc.perform(post("/person/")
+        this.mockMvc.perform(post("/employee/")
                 .contentType("application/json")
                 .content("{ \"login\": \"kirill\", \"password\": \"kirill\" }"))
                 .andDo(print())
@@ -51,16 +53,16 @@ public class PersonControllerTest {
 
     @Test
     public void whenFindAllPerson() throws Exception {
-        this.mockMvc.perform(get("/person/"))
+        this.mockMvc.perform(get("/employee/"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.[0].login").value("user"));
+                .andExpect(jsonPath("$.[0].person.login").value("user"));
     }
 
     @Test
     public void whenFindPersonById() throws Exception {
-        this.mockMvc.perform(get("/person/{id}", person.getId()))
+        this.mockMvc.perform(get("/employee/{id}", person.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -69,7 +71,7 @@ public class PersonControllerTest {
 
     @Test
     public void whenUpdatePersonById() throws Exception {
-        this.mockMvc.perform(put("/person/")
+        this.mockMvc.perform(put("/employee/")
                 .contentType("application/json")
                 .content("{ \"id\": \"" + person.getId() + "\", \"login\": \"kirill\", \"password\": \"kirill\" }"))
                 .andDo(print())
@@ -78,7 +80,7 @@ public class PersonControllerTest {
 
     @Test
     public void whenDeletePersonById() throws Exception {
-        this.mockMvc.perform(delete("/person/{id}", person.getId()))
+        this.mockMvc.perform(delete("/employee/{id}", person.getId()))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
