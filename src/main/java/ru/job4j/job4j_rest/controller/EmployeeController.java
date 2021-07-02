@@ -10,8 +10,9 @@ import org.springframework.web.client.RestTemplate;
 import ru.job4j.job4j_rest.model.Employee;
 import ru.job4j.job4j_rest.model.Person;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employee")
@@ -26,18 +27,15 @@ public class EmployeeController {
 
     @GetMapping("/")
     public List<Employee> getAllEmployees() {
-        List<Person> persons = restTemplate.exchange(
+        AtomicInteger index = new AtomicInteger(1);
+        return restTemplate.exchange(
                 API, HttpMethod.GET, null, new ParameterizedTypeReference<List<Person>>() {}
-        ).getBody();
-        List<Employee> employees = new ArrayList<>();
-        int index = 1;
-        for (Person person : persons) {
-            Employee employee = new Employee("kirill", "kirill", 1);
-            employee.setId(index++);
-            employee.setPerson(person);
-            employees.add(employee);
-        }
-        return employees;
+        ).getBody().stream().map(p -> {
+            Employee employee = new Employee(p.getLogin(), p.getLogin(), index.getAndIncrement());
+            employee.setId(p.getId());
+            employee.setPerson(p);
+            return employee;
+        }).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
