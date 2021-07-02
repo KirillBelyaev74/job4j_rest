@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.com/KirillBelyaev74/job4j_rest.svg?branch=master)](https://travis-ci.com/KirillBelyaev74/job4j_rest)
 [![codecov](https://codecov.io/gh/KirillBelyaev74/job4j_rest/branch/master/graph/badge.svg?token=iSnrWNyNZO)](https://codecov.io/gh/KirillBelyaev74/job4j_rest)
 
-
 ## Проект курса [job4j](http://job4j.ru)
 
 ### Rest
